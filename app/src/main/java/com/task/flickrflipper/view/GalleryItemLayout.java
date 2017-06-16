@@ -8,13 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 /**
  * Created by rafi on 17/6/17.
  */
 
-public class GalleryItemLayout extends FrameLayout {
+public class GalleryItemLayout extends FlipperLayout {
+
     public GalleryItemLayout(@NonNull Context context) {
         super(context);
     }

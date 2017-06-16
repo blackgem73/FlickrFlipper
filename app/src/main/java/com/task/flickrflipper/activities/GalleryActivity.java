@@ -41,8 +41,9 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView {
         mProgressBar.setVisibility(View.GONE);
         mGalleryRecycler.setVisibility(View.GONE);
 
-        initializeRecycler();
         mPresenter = new GalleryPresenter(this);
+        initializeRecycler();
+
         mPresenter.fetchPhotos();
     }
 

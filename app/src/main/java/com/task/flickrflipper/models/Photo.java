@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by rafi on 16/6/17.
@@ -74,7 +75,8 @@ public class Photo implements IPhoto, Parcelable {
 
     @Override
     public String getSize() {
-        return null;
+        ISize size = getSizes().get(3);
+        return String.format(Locale.ENGLISH, "%s X %s", size.getWidth(), size.getHeight());
     }
 
     public String getWidth() {
