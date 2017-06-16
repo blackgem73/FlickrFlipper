@@ -1,16 +1,20 @@
 package com.task.flickrflipper.adapters;
 
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
 import com.task.flickrflipper.R;
 import com.task.flickrflipper.gallery.presenter.IGalleryAdapterPresenter;
 import com.task.flickrflipper.models.IPhoto;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,10 +29,15 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryH
 
     public GalleryAdapter(IGalleryAdapterPresenter presenter) {
         this.mPresenter = presenter;
+        this.photos = new ArrayList<>();
     }
 
     public void setData(List<IPhoto> photos) {
-        this.photos = photos;
+        if (photos == null || photos.isEmpty())
+            return;
+        this.photos.clear();
+        this.photos.addAll(photos);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,7 +49,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryH
     @Override
     public void onBindViewHolder(GalleryHolder holder, int position) {
 
-
+        IPhoto photo = photos.get(position);
+        Picasso.with(holder.itemView.getContext()).load(photo.getUrl()).placeholder(R.drawable.ic_image_placeholder).into(holder.mPhotoIv);
     }
 
     @Override
@@ -55,6 +65,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryH
     }
 
     public class GalleryHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.photo_iv)
+        AppCompatImageView mPhotoIv;
 
         public GalleryHolder(View itemView) {
             super(itemView);

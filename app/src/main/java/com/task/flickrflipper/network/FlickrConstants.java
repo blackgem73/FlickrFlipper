@@ -6,6 +6,7 @@ package com.task.flickrflipper.network;
 
 public class FlickrConstants {
 
+    public static final String METHOD_KEY = "method";
     public static final String FORMAT_KEY = "format";
     public static final String API_KEY = "api_key";
     public static final String GROUP_KEY = "group_id";

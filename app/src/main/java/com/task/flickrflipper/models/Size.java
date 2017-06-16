@@ -3,6 +3,7 @@ package com.task.flickrflipper.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -19,12 +20,15 @@ public class Size implements ISize, Parcelable {
 
     private String height;
 
-    public Size(){
+    public Size() {
 
     }
 
-    public Size(JSONObject o){
-
+    public Size(JSONObject o) throws JSONException {
+        setSource(o.getString("source"));
+        setWidth(o.getString("width"));
+        setHeight(o.getString("height"));
+        setLabel(o.optString("label"));
     }
 
     @Override

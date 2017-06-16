@@ -22,7 +22,7 @@ public interface IPhoto {
 
     String getHeight();
 
-    List<ISize> getSizes();
+    List<? extends ISize> getSizes();
 
     void setFlipped(boolean b);
 

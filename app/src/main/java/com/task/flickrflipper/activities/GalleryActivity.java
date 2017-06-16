@@ -12,6 +12,7 @@ import com.task.flickrflipper.adapters.GalleryAdapter;
 import com.task.flickrflipper.gallery.presenter.GalleryPresenter;
 import com.task.flickrflipper.gallery.view.IGalleryView;
 import com.task.flickrflipper.models.IPhoto;
+import com.task.flickrflipper.view.decorators.SpaceItemDecoration;
 
 import java.util.List;
 
@@ -47,7 +48,9 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView {
 
     private void initializeRecycler() {
 
+        int space = getResources().getDimensionPixelOffset(R.dimen.gallery_grid_space);
         mGalleryRecycler.setLayoutManager(new GridLayoutManager(this, GRID_SPAN));
+        mGalleryRecycler.addItemDecoration(new SpaceItemDecoration(space, GRID_SPAN));
         mAdapter = new GalleryAdapter(mPresenter);
         mGalleryRecycler.setAdapter(mAdapter);
     }
@@ -83,6 +86,6 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView {
 
     @Override
     public void setData(List<IPhoto> photos) {
-
+        mAdapter.setData(photos);
     }
 }

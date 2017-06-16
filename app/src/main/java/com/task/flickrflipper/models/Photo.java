@@ -26,7 +26,7 @@ public class Photo implements IPhoto, Parcelable {
 
     private String height;
 
-    private List<Size> sizes;
+    private List<? extends ISize> sizes;
 
     private boolean isFlipped;
 
@@ -69,7 +69,7 @@ public class Photo implements IPhoto, Parcelable {
         if (getSizes() == null || getSizes().isEmpty())
             return url;
 
-        return getSizes().get(2).getSource(); // FIXME Assuming there is always a list whose size is greater than 2
+        return getSizes().get(3).getSource(); // FIXME Assuming there is always a list whose size is greater than 2
     }
 
     @Override
@@ -106,13 +106,13 @@ public class Photo implements IPhoto, Parcelable {
     }
 
 
-    public void setSizes(List<Size> sizes) {
+    public void setSizes(List<? extends ISize> sizes) {
         this.sizes = sizes;
     }
 
     @Override
-    public List<ISize> getSizes() {
-        return null;
+    public List<? extends ISize> getSizes() {
+        return this.sizes;
     }
 
     @Override
