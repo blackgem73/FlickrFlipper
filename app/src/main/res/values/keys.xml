@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="flickr_api_key">ab481e5f1481ef47cd2c0fb338e7cf19</string>
+    <string name="flickr_secret_key">532c813c07e6d7dc</string>
+    <string name="flickr_group_id">27393618@N00</string>
+
+</resources>

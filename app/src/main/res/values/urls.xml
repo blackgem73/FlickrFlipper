@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="url_flickr_photoset">/services/rest/?method=flickr.groups.pools.getPhotos</string>
+    <string name="url_flickr_sizes">/services/rest/?method=flickr.photos.getSizes</string>
+
+</resources>
