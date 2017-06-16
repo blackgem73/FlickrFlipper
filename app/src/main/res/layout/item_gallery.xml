@@ -19,6 +19,7 @@
         android:background="@color/grey">
 
         <LinearLayout
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -31,8 +32,9 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:maxLines="1"
+                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/owner_name_tv"
@@ -42,7 +44,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
 
             <android.support.v7.widget.AppCompatTextView
@@ -54,7 +56,6 @@
                 android:maxLines="1"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
 
         </LinearLayout>
 
