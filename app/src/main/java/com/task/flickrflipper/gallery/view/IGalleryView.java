@@ -12,4 +12,8 @@ public interface IGalleryView extends IGalleryAdapterView{
 
     void flipPhoto(int position);
 
+    void bookmarkView(int position);
+
+    void removeView(int position);
+
 }

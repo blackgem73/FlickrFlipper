@@ -20,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * Created by rafi on 16/6/17.
@@ -41,6 +42,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryH
             return;
         this.photos.clear();
         this.photos.addAll(photos);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(int index){
+        if (this.photos == null || index < 0)
+            return;
+
+        this.photos.remove(index);
         notifyDataSetChanged();
     }
 
@@ -71,12 +80,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryH
                 holder.mPhotoIv.setVisibility(View.VISIBLE);
                 holder.mMetaDataLayout.setVisibility(View.INVISIBLE);
             }
+            holder.mBookmarkIcon.setVisibility(photo.isBookmarked() ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
     @Override
     public int getItemCount() {
         return this.photos.size();
+    }
+
+    public void bookmarkView(int position){
+        notifyItemChanged(position);
     }
 
     public void flipPosition(int position) {
@@ -104,6 +118,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryH
         @BindView(R.id.size_tv)
         AppCompatTextView mSizeIv;
 
+        @BindView(R.id.bookmark_icon)
+        AppCompatImageView mBookmarkIcon;
+
         public GalleryHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -114,6 +131,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryH
             if (layout.isFlipping())
                 return;
             mPresenter.flipRequested(photos.get(getAdapterPosition()));
+        }
+
+        @OnLongClick(R.id.root_layout)
+        public boolean onBookmarkRequest(){
+            mPresenter.bookmark(photos.get(getAdapterPosition()));
+            return true;
         }
 
         public void flip() {

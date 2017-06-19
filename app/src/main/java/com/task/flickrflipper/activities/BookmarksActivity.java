@@ -9,12 +9,10 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.task.flickrflipper.R;
 import com.task.flickrflipper.adapters.GalleryAdapter;
-import com.task.flickrflipper.gallery.presenter.GalleryPresenter;
+import com.task.flickrflipper.gallery.presenter.BookmarkPresenter;
 import com.task.flickrflipper.gallery.view.IGalleryView;
 import com.task.flickrflipper.models.IPhoto;
 import com.task.flickrflipper.view.decorators.SpaceItemDecoration;
@@ -25,34 +23,35 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GalleryActivity extends AppCompatActivity implements IGalleryView, SearchView.OnQueryTextListener {
+/**
+ * Created by rafi on 19/6/17.
+ */
+
+public class BookmarksActivity extends AppCompatActivity implements IGalleryView, SearchView.OnQueryTextListener {
 
     public static final int GRID_SPAN = 2;
 
-    public static final int RC_BOOKMARKS = 122;
+    public static final String KEY_BOOKMARKS = "key_bookmarks";
 
     @BindView(R.id.recycler_view)
     RecyclerView mGalleryRecycler;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar mProgressBar;
-
-    private GalleryPresenter mPresenter;
+    private BookmarkPresenter mPresenter;
     private GalleryAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_bookmarks);
         ButterKnife.bind(this);
 
-        mProgressBar.setVisibility(View.GONE);
-        mGalleryRecycler.setVisibility(View.GONE);
+        mGalleryRecycler.setVisibility(View.VISIBLE);
 
-        mPresenter = new GalleryPresenter(this);
+        mPresenter = new BookmarkPresenter(this);
         initializeRecycler();
 
-        mPresenter.fetchPhotos();
+        ArrayList<IPhoto> photos = getIntent().getParcelableArrayListExtra(KEY_BOOKMARKS);
+        mPresenter.setData(photos);
     }
 
     private void initializeRecycler() {
@@ -78,7 +77,7 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView, 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_gallery, menu);
+        getMenuInflater().inflate(R.menu.menu_bookmarks, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
@@ -87,32 +86,13 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView, 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_bookmark:
-                ArrayList<IPhoto> photos = mPresenter.getBookmarkPhotos();
-                if (photos == null || photos.isEmpty()) {
-                    Toast.makeText(this, R.string.no_bookmarks_msg, Toast.LENGTH_SHORT).show();
-                    return super.onOptionsItemSelected(item);
-                }
-                Intent i = new Intent(this, BookmarksActivity.class);
-                i.putExtra(BookmarksActivity.KEY_BOOKMARKS, photos);
-                startActivityForResult(i, RC_BOOKMARKS);
-                break;
-        }
-        return true;
-    }
-
-    @Override
     public void showProgress() {
-        mGalleryRecycler.setVisibility(View.GONE);
-        mProgressBar.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void hideProgress() {
-        mProgressBar.setVisibility(View.GONE);
-        mGalleryRecycler.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -145,7 +125,7 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView, 
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.isEmpty()) {
+        if (newText.isEmpty()){
             mPresenter.resetData();
             return false;
         }
@@ -154,14 +134,10 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView, 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == RC_BOOKMARKS) {
-            if (data != null){
-                ArrayList<IPhoto> photos = data.getParcelableArrayListExtra(BookmarksActivity.KEY_BOOKMARKS);
-                mPresenter.updateBookmarks(photos);
-            }
-        }
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_BOOKMARKS, mPresenter.getBookmarkPhotos());
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
     }
 }

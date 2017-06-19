@@ -1,7 +1,6 @@
 package com.task.flickrflipper.models;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +14,7 @@ import java.util.Locale;
  * Created by rafi on 16/6/17.
  */
 
-public class Photo implements IPhoto, Parcelable {
+public class Photo implements IPhoto {
 
     private String id;
 
@@ -30,6 +29,8 @@ public class Photo implements IPhoto, Parcelable {
     private List<? extends ISize> sizes;
 
     private boolean isFlipped;
+
+    private boolean isBookmark;
 
     public Photo() {
     }
@@ -118,6 +119,16 @@ public class Photo implements IPhoto, Parcelable {
     }
 
     @Override
+    public void setBookmark(boolean b) {
+        this.isBookmark = b;
+    }
+
+    @Override
+    public boolean isBookmarked() {
+        return isBookmark;
+    }
+
+    @Override
     public void setFlipped(boolean b) {
         this.isFlipped = b;
     }
@@ -164,6 +175,8 @@ public class Photo implements IPhoto, Parcelable {
         dest.writeString(this.width);
         dest.writeString(this.height);
         dest.writeTypedList(this.sizes);
+        dest.writeByte(this.isFlipped ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isBookmark ? (byte) 1 : (byte) 0);
     }
 
     protected Photo(Parcel in) {
@@ -173,6 +186,8 @@ public class Photo implements IPhoto, Parcelable {
         this.width = in.readString();
         this.height = in.readString();
         this.sizes = in.createTypedArrayList(Size.CREATOR);
+        this.isFlipped = in.readByte() != 0;
+        this.isBookmark = in.readByte() != 0;
     }
 
     public static final Creator<Photo> CREATOR = new Creator<Photo>() {

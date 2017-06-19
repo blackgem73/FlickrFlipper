@@ -13,15 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rafi on 16/6/17.
+ * Created by rafi on 19/6/17.
  */
 
-public class GalleryPresenter implements IGalleryPresenter {
-
+public class BookmarkPresenter implements IGalleryPresenter {
     private IGalleryView mGalleryView;
     private List<IPhoto> mPhotos;
 
-    public GalleryPresenter(IGalleryView galleryView) {
+    public BookmarkPresenter(IGalleryView galleryView) {
         this.mGalleryView = galleryView;
     }
 
@@ -77,10 +76,7 @@ public class GalleryPresenter implements IGalleryPresenter {
 
     @Override
     public void updateBookmarks(ArrayList<IPhoto> photos) {
-        for (IPhoto mPhoto : mPhotos) {
-            mPhoto.setBookmark(photos.contains(mPhoto));
-        }
-        setData(mPhotos);
+
     }
 
     @Subscribe
@@ -99,6 +95,12 @@ public class GalleryPresenter implements IGalleryPresenter {
     @Override
     public void bookmark(IPhoto photo) {
         photo.setBookmark(!photo.isBookmarked());
-        mGalleryView.bookmarkView(this.mPhotos.indexOf(photo));
+        if (photo.isBookmarked())
+            mGalleryView.bookmarkView(this.mPhotos.indexOf(photo));
+        else {
+            int index = mPhotos.indexOf(photo);
+            mPhotos.remove(index);
+            mGalleryView.removeView(index);
+        }
     }
 }

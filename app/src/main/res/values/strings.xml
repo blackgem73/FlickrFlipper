@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FlickrFlipper</string>
+    <string name="no_bookmarks_msg">No Bookmarks Selected</string>
 </resources>

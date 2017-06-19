@@ -1,12 +1,14 @@
 package com.task.flickrflipper.models;
 
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by rafi on 16/6/17.
  */
 
-public interface IPhoto {
+public interface IPhoto extends Parcelable{
 
     String getId();
 
@@ -23,6 +25,10 @@ public interface IPhoto {
     String getHeight();
 
     List<? extends ISize> getSizes();
+
+    void setBookmark(boolean b);
+
+    boolean isBookmarked();
 
     void setFlipped(boolean b);
 

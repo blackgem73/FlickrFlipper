@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_bookmark"
-        android:icon="@drawable/ic_bookmark_border"
-        app:showAsAction="always"
-        android:title="Bookmark"/>
-
-    <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="always"

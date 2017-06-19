@@ -10,4 +10,6 @@ public interface IGalleryAdapterPresenter {
 
     void flipRequested(IPhoto photo);
 
+    void bookmark(IPhoto photo);
+
 }
