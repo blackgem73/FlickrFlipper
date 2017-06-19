@@ -3,6 +3,7 @@ package com.task.flickrflipper.gallery.presenter;
 import com.squareup.otto.Subscribe;
 import com.task.flickrflipper.gallery.view.IGalleryView;
 import com.task.flickrflipper.models.IPhoto;
+import com.task.flickrflipper.models.Photo;
 import com.task.flickrflipper.network.BusProvider;
 import com.task.flickrflipper.network.requests.FlickrPhotosRequest;
 import com.task.flickrflipper.network.response.FlickrPhotosResponse;
@@ -37,6 +38,20 @@ public class GalleryPresenter implements IGalleryPresenter {
     public void fetchPhotos() {
         mGalleryView.showProgress();
         ThreadUtils.getDefaultExecutorService().submit(new FlickrPhotosRequest("1"));
+    }
+
+    @Override
+    public void resetData() {
+        if (mPhotos != null && !mPhotos.isEmpty())
+            mGalleryView.setData(mPhotos);
+    }
+
+    @Override
+    public void filterByTitle(String key) {
+        if (mPhotos == null || mPhotos.isEmpty())
+            return;
+
+        mGalleryView.setData(Photo.filterByTitle(mPhotos, key));
     }
 
     @Subscribe

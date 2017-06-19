@@ -130,6 +130,16 @@ public class Photo implements IPhoto, Parcelable {
         this.height = height;
     }
 
+    public static List<IPhoto> filterByTitle(List<IPhoto> photos, String key){
+
+        List<IPhoto> tmp = new ArrayList<>();
+        for (IPhoto photo : photos) {
+            if (photo.getTitle() != null && photo.getTitle().toLowerCase().contains(key.toLowerCase()))
+                tmp.add(photo);
+        }
+        return tmp;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof IPhoto && ((IPhoto) obj).getId().equals(getId());

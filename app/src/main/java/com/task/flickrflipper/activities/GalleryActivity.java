@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -19,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GalleryActivity extends AppCompatActivity implements IGalleryView {
+public class GalleryActivity extends AppCompatActivity implements IGalleryView, SearchView.OnQueryTextListener {
 
     public static final int GRID_SPAN = 2;
 
@@ -69,6 +72,16 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_gallery, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
     public void showProgress() {
         mGalleryRecycler.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -88,5 +101,23 @@ public class GalleryActivity extends AppCompatActivity implements IGalleryView {
     @Override
     public void setData(List<IPhoto> photos) {
         mAdapter.setData(photos);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (query.isEmpty())
+            return false;
+        mPresenter.filterByTitle(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.isEmpty()){
+            mPresenter.resetData();
+            return false;
+        }
+        mPresenter.filterByTitle(newText);
+        return false;
     }
 }

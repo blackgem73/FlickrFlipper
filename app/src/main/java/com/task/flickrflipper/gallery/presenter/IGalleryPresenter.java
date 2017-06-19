@@ -12,4 +12,8 @@ public interface IGalleryPresenter extends IGalleryAdapterPresenter{
 
     void fetchPhotos();
 
+    void resetData();
+
+    void filterByTitle(String key);
+
 }
